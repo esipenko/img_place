@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../favicon.ico">
+  <base href="/">
+  <title>Img</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="./stylesheets/bootstrap.min.css" rel="stylesheet type=" text/css""> <!-- Custom styles for this template -->
+  <link href="./stylesheets/starter-template.css" rel="stylesheet type=" text/css""> <link hred="./usr_img">
+  <script src="./javascripts/delete_smth.js"> </script>
+  <script src="./javascripts/validate.js"> </script>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        </button>
+        <a class="navbar-brand" href="#">Home</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="/users">Images</a></li>
+
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <div align="center" class="container">
+    <div class="panel panel-default">
+      <div class="panel-heading"><strong>Upload Files</strong></div>
+      <div class="panel-body">
+
+        <!-- Standar Form -->
+        <h4>Select files from your computer</h4>
+        <%= typeof msg_file != 'undefined' ? msg_file : '' %>
+        <form method="post" enctype="multipart/form-data" id="js-upload-form">
+          <div class="form-inline">
+            <div class="form-group">
+              <input type="file" name="files[]" id="js-upload-files" multiple>
+            </div>
+            <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+<div align="center" class="container">
+  <h4>Or create folder</h4>
+  <%= typeof msg_folder != 'undefined' ? msg_folder : '' %>
+  <form name="create_folder" method="post" enctype="application/x-www-form-urlencoded" class="form-inline">
+    <label class="sr-only" for="inlineFormInput">Name Folder</label>
+    <input name="folder_name" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Name Folder">
+
+    <button type="submit" class="btn btn-primary" >Create</button>
+  </form>
+</div>
+
+
+
+
+  <div class="container">
+    <div id="main_field" class="starter-template">
+      <% if (dirs.length > 0 || imgs.length>0) {
+          if(dirs.length > 0 ) {%>
+             <div class="row">
+             <% for (let dir in dirs) {%>
+                 <div class="col-md-3 col-sm-4 col-xs-6 thumb">
+                   <div class="show-image">
+                     <a href ="<%=path + dirs[dir]+'/'%>">
+                       <img class="zoom img-responsive"src="./images/folder.png">
+                       <figcaption><%=dirs[dir].replace(/_/ig, ' ')%></figcaption>
+                     </a>
+                     <input id="<%=dirs[dir]%>" class="delete btn btn-secondary btn-sm" type="button" value="Delete" onclick="del_smth(this.id)" />
+                     </div>
+                     </div>
+
+
+            <%}%>
+            </div>
+          <%}
+          if(imgs.length>0){%>
+            <div class="row">
+            <% for(let img in imgs)  {%>
+              <div class="col-md-3 col-sm-4 col-xs-6 thumb">
+                <div class="show-image">
+                  <a href =" <%= path+imgs[img] %> ">
+                    <img class="zoom img-responsive img-thumbnail" src="<%=path+imgs[img]%>" alt="">
+                  </a>
+                  <input id="<%=imgs[img]%>" class="delete btn btn-secondary btn-sm" type="button" value="Delete" onclick="del_smth(this.id)" />
+                </div>
+              </div>
+            <%}%>
+            </div>
+          <%}
+        }
+        else{%>
+          <h2>Your library is currently empty!! Let's upload someting </h2>
+        <%}%>
+    </div>
+  </div>
+
+
+
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script>
+    window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
+  </script>
+  <script src="./javascripts/bootstrap.min.js"></script>
+
+</body>
+
+</html>
