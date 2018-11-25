@@ -3,9 +3,9 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const rimraf = require('rimraf');
-
+const bodyParser = require('body-parser')
 var router = express.Router();
-
+router.use(bodyParser.urlencoded({extended: true}));
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, '.' + req.originalUrl);
@@ -54,13 +54,15 @@ router.post('/', (req, res) => {
     }
   } else {
     upload(req, res, (err) => {
+      for(let i = 0; i<req.files.length; i++)
+        console.log('FILES:  '+ JSON.stringify(req.files[i])); //Тут он покажет все объекты которые я передал на загрузку
       if (err) {
         const data = get_data(req.originalUrl);
         data.msg_file = err;
         res.render('users', data);
       } else {
         if (req.files.length == 0) {
-          const data = get_data(req.originalUrl);
+          const data = get_data(req.originalUrl); //а эта функция найдет на сервере не все, где теряются файлы мне непонятно..
           data.msg_file = 'Choose files!!';
           res.render('users', data);
         } else res.redirect(req.originalUrl); //Использую редирект, чтобы полсе f5 форма не отправлялась заново
