@@ -61,3 +61,10 @@ img.zoom {
   top: 0;
   left: 76%;
 }
+
+.btn-margin-left {
+    margin-left: 2px;
+}
+.btn-margin-right {
+    margin-right: 2px;
+}

@@ -5,7 +5,9 @@ const multer = require('multer');
 const rimraf = require('rimraf');
 const bodyParser = require('body-parser')
 var router = express.Router();
-router.use(bodyParser.urlencoded({extended: true}));
+router.use(bodyParser.urlencoded({
+  extended: true
+}));
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, '.' + req.originalUrl);
@@ -25,13 +27,24 @@ const upload = multer({
 }).array('files[]');
 
 /* GET users listing. */
-router.get('/', (req, res, next) => {
-  const data = get_data(req.originalUrl)
-  res.render('users', data);
+router.get('/:id/*', (req, res, next) => {
+  let auth = req.isAuthenticated();
+  if (typeof req.user == 'undefined') res.redirect('/');
+  if (req.params.id == req.user._id) {
+    const data = get_data(req.originalUrl);
+    res.render('users', data);
+  } else
+    res.render('index', {
+      auth: auth,
+      msg: 'access denied'
+    })
+
+
 
 });
+
 /* POST users listing. */
-router.post('/', (req, res) => {
+router.post('/:id/*', (req, res) => {
 
   console.log(req.headers['content-type']); //Формы для создания папок и для загрузки имеют разные хедеры
 
@@ -54,8 +67,8 @@ router.post('/', (req, res) => {
     }
   } else {
     upload(req, res, (err) => {
-      for(let i = 0; i<req.files.length; i++)
-        console.log('FILES:  '+ JSON.stringify(req.files[i])); //Тут он покажет все объекты которые я передал на загрузку
+      for (let i = 0; i < req.files.length; i++)
+        console.log('FILES:  ' + JSON.stringify(req.files[i])); //Тут он покажет все объекты которые я передал на загрузку
       if (err) {
         const data = get_data(req.originalUrl);
         data.msg_file = err;
@@ -72,7 +85,7 @@ router.post('/', (req, res) => {
   }
 });
 /* DELETE users listing. */
-router.delete('/', (req, res) => {
+router.delete('/:id/*', (req, res) => {
   console.log('Path: ' + req.originalUrl);
   console.log('Headers: ' + req.headers['sure']);
   const reqPath = '.' + req.originalUrl;
@@ -106,8 +119,11 @@ router.delete('/', (req, res) => {
               response: "not empty"
             });
           } else {
-            const data = get_data(req.originalUrl);
-            res.render('users', data);
+            res.send({
+              status: "200",
+              responseType: "string",
+              response: "success"
+            });
           }
 
         });

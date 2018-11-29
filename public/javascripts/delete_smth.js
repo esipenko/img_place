@@ -9,6 +9,7 @@ function del_smth(clicked_id) {
     }
   }).then(res => {
     //window.location.reload();
+    console.log(res);
     let resJson = res.json();
     console.log(resJson);
     return resJson;

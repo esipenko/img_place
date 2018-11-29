@@ -10,15 +10,134 @@
   <meta name="author" content="">
   <link rel="icon" href="../../favicon.ico">
   <base href="/">
-  <title>Img</title>
+  <title>Home</title>
 
   <!-- Bootstrap core CSS -->
   <link href="./stylesheets/bootstrap.min.css" rel="stylesheet type=" text/css""> <!-- Custom styles for this template -->
   <link href="./stylesheets/starter-template.css" rel="stylesheet type=" text/css""> <link hred="./usr_img">
+
 </head>
 
 <body>
+  <%if(!auth){%>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        </button>
+        <a class="navbar-brand" href="#">Home</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
 
+        <button class="btn btn-secondary navbar-btn navbar-right btn-margin-left btn-margin-right" data-toggle="modal" data-target="#sign_up_form">Sign up</button>
+        <button class="btn btn-secondary navbar-btn navbar-right btn-margin-left btn-margin-right" data-toggle="modal" data-target="#log_in_form">Log in</button>
+
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <div class="modal fade" id="sign_up_form" tabindex="-1" role="dialog" aria-labelledby="sign_up_formLAbel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="sign_up_formLabel">Sign up form</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <form action="/signup" method="post" id="fileForm" role="form">
+                <fieldset>
+
+                  <div class="form-group">
+                    <label for="firstname"><span class="req">* </span> First name: </label>
+                    <input class="form-control" type="text" name="firstname" id="txt" onkeyup="Validate(this)" required />
+                    <div id="errFirst"></div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="lastname"><span class="req">* </span> Last name: </label>
+                    <input class="form-control" type="text" name="lastname" id="txt" onkeyup="Validate(this)" required />
+                    <div id="errLast"></div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="email"><span class="req">* </span> Email Address: </label>
+                    <input class="form-control" required type="text" name="email" id="email" onchange="email_validate(this.value);" />
+                    <div class="status" id="status"></div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="password"><span class="req">* </span> Password: </label>
+                    <input required name="password" type="password" class="form-control inputpass" minlength="4" maxlength="16" id="pass1" />
+                    <p></p>
+
+                    <label for="password"><span class="req">* </span> Password Confirm: </label>
+                    <input required name="password1" type="password" class="form-control inputpass" minlength="4" maxlength="16" placeholder="Enter again to validate" id="pass2" onkeyup="checkPass(); return false;" />
+                    <span id="confirmMessage" class="confirmMessage"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <input class="btn btn-success" type="submit" name="submit_reg" value="Register">
+                  </div>
+
+                </fieldset>
+              </form><!-- ends register form -->
+
+            </div><!-- ends col-6 -->
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="log_in_form" tabindex="-1" role="dialog" aria-labelledby="log_in_formLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="sign_up_formLabel">Log in</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <form action="/login" method="post" id="fileForm" role="form">
+                <fieldset>
+                  <div class="form-group">
+                    <label for="email"><span class="req">* </span> Email Address: </label>
+                    <input class="form-control" required type="text" name="email" id="email" onchange="email_validate(this.value);" />
+                    <div class="status" id="status"></div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="password"><span class="req">* </span> Password: </label>
+                    <input required name="password" type="password" class="form-control inputpass" minlength="4" maxlength="16" id="pass" />
+                  </div>
+
+
+                  <div class="form-group">
+                    <input class="btn btn-success" type="submit" name="submit_reg" value="Log in">
+                  </div>
+
+                </fieldset>
+              </form><!-- ends register form -->
+
+            </div><!-- ends col-6 -->
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } else { %>
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
@@ -28,19 +147,31 @@
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a href="./users">Images</a></li>
+          <li class="active"><a href="/getId">Images</a></li>
+          <li class="active"><a href="/profile">Profile</a></li>
+          <li class="active"><a href="/logout">Log out</a></li>
         </ul>
+
       </div>
       <!--/.nav-collapse -->
     </div>
   </nav>
-
+  <%}%>
 
   <div class="container">
     <div id="main_field" class="starter-template">
       <h1> This is home page! </h1>
+      <p>
+        <%= typeof msg != 'undefined' ? msg : '' %>
+        <p>
+          <% if ( typeof loginMessage != 'undefined' ) { %>
+          <p>
+            <%= loginMessage %>
+          </p>
+          <% } %>
     </div>
   </div>
+
 
 
 
@@ -55,7 +186,7 @@
     window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
   </script>
   <script src="./javascripts/bootstrap.min.js"></script>
-
+  <script src="./javascripts/validate.js"></script>
 </body>
 
 </html>

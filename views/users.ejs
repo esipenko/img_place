@@ -30,8 +30,9 @@
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a href="/users">Images</a></li>
-
+          <li class="active"><a href="/getId">Images</a></li>
+          <li class="active"><a href="/profile">Profile</a></li>
+          <li class="active"><a href="/logout">Log out</a></li>
         </ul>
       </div>
       <!--/.nav-collapse -->
@@ -59,16 +60,16 @@
   </div>
 
 
-<div align="center" class="container">
-  <h4>Or create folder</h4>
-  <%= typeof msg_folder != 'undefined' ? msg_folder : '' %>
-  <form name="create_folder" method="post" enctype="application/x-www-form-urlencoded" class="form-inline">
-    <label class="sr-only" for="inlineFormInput">Name Folder</label>
-    <input name="folder_name" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Name Folder">
+  <div align="center" class="container">
+    <h4>Or create folder</h4>
+    <%= typeof msg_folder != 'undefined' ? msg_folder : '' %>
+    <form name="create_folder" method="post" enctype="application/x-www-form-urlencoded" class="form-inline">
+      <label class="sr-only" for="inlineFormInput">Name Folder</label>
+      <input name="folder_name" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Name Folder">
 
-    <button type="submit" class="btn btn-primary" >Create</button>
-  </form>
-</div>
+      <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+  </div>
 
 
 
@@ -77,40 +78,42 @@
     <div id="main_field" class="starter-template">
       <% if (dirs.length > 0 || imgs.length>0) {
           if(dirs.length > 0 ) {%>
-             <div class="row">
-             <% for (let dir in dirs) {%>
-                 <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-                   <div class="show-image">
-                     <a href ="<%=path + dirs[dir]+'/'%>">
-                       <img class="zoom img-responsive"src="./images/folder.png">
-                       <figcaption><%=dirs[dir].replace(/_/ig, ' ')%></figcaption>
-                     </a>
-                     <input id="<%=dirs[dir]%>" class="delete btn btn-secondary btn-sm" type="button" value="Delete" onclick="del_smth(this.id)" />
-                     </div>
-                     </div>
+      <div class="row">
+        <% for (let dir in dirs) {%>
+        <div class="col-md-3 col-sm-4 col-xs-6 thumb">
+          <div class="show-image">
+            <a href="<%=path + dirs[dir]+'/'%>">
+              <img class="zoom img-responsive" src="./images/folder.png">
+              <figcaption>
+                <%=dirs[dir].replace(/_/ig, ' ')%>
+              </figcaption>
+            </a>
+            <input id="<%=dirs[dir]%>" class="delete btn btn-secondary btn-sm" type="button" value="Delete" onclick="del_smth(this.id)" />
+          </div>
+        </div>
 
 
-            <%}%>
-            </div>
-          <%}
+        <%}%>
+      </div>
+      <%}
           if(imgs.length>0){%>
-            <div class="row">
-            <% for(let img in imgs)  {%>
-              <div class="col-md-3 col-sm-4 col-xs-6 thumb">
-                <div class="show-image">
-                  <a href =" <%= path+imgs[img] %> ">
-                    <img class="zoom img-responsive img-thumbnail" src="<%=path+imgs[img]%>" alt="">
-                  </a>
-                  <input id="<%=imgs[img]%>" class="delete btn btn-secondary btn-sm" type="button" value="Delete" onclick="del_smth(this.id)" />
-                </div>
-              </div>
-            <%}%>
-            </div>
-          <%}
+      <div class="row">
+        <% for(let img in imgs)  {%>
+        <div class="col-md-3 col-sm-4 col-xs-6 thumb">
+          <div class="show-image">
+            <a href=" <%= path+imgs[img] %> ">
+              <img class="zoom img-responsive img-thumbnail" src="<%=path+imgs[img]%>" alt="">
+            </a>
+            <input id="<%=imgs[img]%>" class="delete btn btn-secondary btn-sm" type="button" value="Delete" onclick="del_smth(this.id)" />
+          </div>
+        </div>
+        <%}%>
+      </div>
+      <%}
         }
         else{%>
-          <h2>Your library is currently empty!! Let's upload someting </h2>
-        <%}%>
+      <h2>Your library is currently empty!! Let's upload someting </h2>
+      <%}%>
     </div>
   </div>
 
