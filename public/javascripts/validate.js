@@ -51,3 +51,12 @@ var regMail = /^([_a-zA-Z0-9-]+)(\.[_a-zA-Z0-9-]+)*@([a-zA-Z0-9-]+\.)+([a-zA-Z]{
     document.getElementById("status").innerHTML	= "<span class='valid'>Thanks, you have entered a valid Email address!</span>";
     }
 }
+
+function description_validate(){
+  var x = document.forms["editForm"]["description"].value;
+  if (x.length >400) {
+    alert("Description length must be less than 400");
+    return false;
+  }
+  else return true;
+}

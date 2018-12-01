@@ -105,6 +105,7 @@
               <img class="zoom img-responsive img-thumbnail" src="<%=path+imgs[img]%>" alt="">
             </a>
             <input id="<%=imgs[img]%>" class="delete btn btn-secondary btn-sm" type="button" value="Delete" onclick="del_smth(this.id)" />
+            <!--<input id="<%=imgs[img]%>" class="edit btn btn-secondary btn-sm" type="button" value="Edit" data-toggle="modal" data-target="#edit_form" />-->
           </div>
         </div>
         <%}%>
@@ -116,6 +117,49 @@
       <%}%>
     </div>
   </div>
+
+<!--<div class="modal fade" id="edit_form" tabindex="-1" role="dialog" aria-labelledby="edit_formLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="sign_up_formLabel">Sign up form</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <form id="editForm" role="form">
+                <fieldset>
+
+                  <div class="form-group">
+                    <label for="Filename">Filename: </label>
+                    <input class="form-control" type="text" name="filename" id="txt" onkeyup="validateForm"/>
+                    <div id="errFirst"></div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="description"> Description: </label>
+                    <input class="form-control" required type="text" name="description" id="description" onchange="description_validate();" />
+                    <div class="status" id="status"></div>
+                  </div>
+
+                  <div class="form-group">
+                    <input class="btn btn-success" type="submit" name="submit_edit" value="Register">
+                  </div>
+
+                </fieldset>
+              </form>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
 
 
 

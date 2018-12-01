@@ -61,6 +61,10 @@ img.zoom {
   top: 0;
   left: 76%;
 }
+.show-image input.edit {
+  top: 0;
+  left: 58.5%;
+}
 
 .btn-margin-left {
     margin-left: 2px;

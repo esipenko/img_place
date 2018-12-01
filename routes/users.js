@@ -3,8 +3,10 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const rimraf = require('rimraf');
-const bodyParser = require('body-parser')
-var router = express.Router();
+const bodyParser = require('body-parser');
+const User = require('../models/user');
+const File = require('../models/file');
+const router = express.Router();
 router.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -78,7 +80,21 @@ router.post('/:id/*', (req, res) => {
           const data = get_data(req.originalUrl); //а эта функция найдет на сервере не все, где теряются файлы мне непонятно..
           data.msg_file = 'Choose files!!';
           res.render('users', data);
-        } else res.redirect(req.originalUrl); //Использую редирект, чтобы полсе f5 форма не отправлялась заново
+        } else {
+          for (let file in req.files){
+            let newFile = new File();
+            newFile.user = req.user._id;
+            newFile.fileName = req.files[file].filename;
+            newFile.size = req.files[file].size;
+            newFile.path = req.originalUrl +req.files[file].filename;
+
+            newFile.save((err) => {
+              if (err)
+                throw err;
+              });
+          }
+          res.redirect(req.originalUrl); //Использую редирект, чтобы полсе f5 форма не отправлялась заново
+        }
       }
     });
 
@@ -95,6 +111,9 @@ router.delete('/:id/*', (req, res) => {
 
     if (stats.isFile()) {
       fs.unlink(reqPath, function() {
+        File.deleteOne({path: req.originalUrl}, (err) => {
+          if(err) console.log('ERROR: ' + err);
+        });
         res.send({
           status: "200",
           responseType: "string",
@@ -103,6 +122,9 @@ router.delete('/:id/*', (req, res) => {
       });
     } else {
       if (req.headers['sure'] === 'true') { //Если папка не пуста, спросить уверен ли пользователь что хочет удалить папку
+        File.deleteMany({path: { $regex : req.originalUrl} }, (err) => {
+          if(err) console.log(err);
+        });
         rimraf(reqPath, (err) => {
           console.log(err);
         });
